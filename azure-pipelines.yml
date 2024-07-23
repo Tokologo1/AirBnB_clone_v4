@@ -12,8 +12,13 @@ pool:
 steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
+  env:
+    ENV: testing
 
 - script: |
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
+    echo Environment: $ENV
   displayName: 'Run a multi-line script'
+  env:
+    ENV: testing
