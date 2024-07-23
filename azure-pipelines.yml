@@ -9,16 +9,25 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-  env:
-    ENV: testing
+jobs:
+- job: Build
+  steps:
+  - script: echo Hello, world!
+    displayName: 'Run a one-line script'
+  
+  - script: |
+      echo Add other tasks to build, test, and deploy your project.
+      echo See https://aka.ms/yaml
+    displayName: 'Run a multi-line script'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-    echo Environment: $ENV
-  displayName: 'Run a multi-line script'
-  env:
-    ENV: testing
+- job: Deploy
+  dependsOn: Build
+  condition: succeeded()
+  environment: 
+    name: testing  # Specify the environment
+    resourceName: 'testing' # Optional: specify the resource
+  pool:
+    vmImage: ubuntu-latest
+  steps:
+  - script: echo Deploying to testing environment
+    displayName: 'Deploy to testing'
